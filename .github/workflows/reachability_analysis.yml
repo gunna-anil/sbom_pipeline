@@ -1,4 +1,4 @@
-name: Reachability Analysis
+name: Eval Reachability Analysis
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   analyze:
-    name: CodeQL Reachability Analysis
+    name: Eval Reachability
     runs-on: ubuntu-latest
 
     permissions:
@@ -24,15 +24,18 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         languages: javascript
-        # packs: my-org/my-custom-queries # Uncomment if using custom query pack
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v3
 
-    - name: Perform CodeQL Analysis
+    - name: Perform CodeQL Analysis with custom reachability query
       uses: github/codeql-action/analyze@v3
-
-    - name: Upload SARIF report
-      uses: github/codeql-action/upload-sarif@v3
       with:
-        sarif_file: eval-reachability.sarif
+        queries: ./.github/codeql/eval-reachability.ql
+        output: eval-reachability.sarif
+
+    - name: Upload SARIF results
+      uses: actions/upload-artifact@v4
+      with:
+        name: eval-reachability-results
+        path: eval-reachability.sarif

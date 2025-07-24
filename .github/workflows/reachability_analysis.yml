@@ -24,17 +24,15 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         languages: javascript
+        # packs: my-org/my-custom-queries # Uncomment if using custom query pack
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v3
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
-      with:
-        output: results.sarif
 
-    - name: Upload SARIF result artifact
-      uses: actions/upload-artifact@v4
+    - name: Upload SARIF report
+      uses: github/codeql-action/upload-sarif@v3
       with:
-        name: codeql-reachability-results
-        path: results.sarif
+        sarif_file: eval-reachability.sarif

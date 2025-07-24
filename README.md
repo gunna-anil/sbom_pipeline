@@ -1,1 +1,1 @@
-# sbom_pipeline
+# code_ql reachability analysis
